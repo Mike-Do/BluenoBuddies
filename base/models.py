@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+
+
 
 class Room(models.Model):
     #host = 
@@ -15,7 +18,9 @@ class Room(models.Model):
         return str(self.name)
 
 class Message(models.Model):
-    # user = 
+    # use Django's User Model
+    # one-to-many relationship (one user can have multiple messages)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     # many-to-one relationship (many messages to one room)
     # CASCADE will get rid of all messages if room is deleted
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
