@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Room
+from .forms import RoomForm
 
 # Dummy data for rooms
 # rooms = [
@@ -21,3 +22,17 @@ def room(request, pk):
     room = Room.objects.get(id=pk)
     context = {'room': room}
     return render(request, 'base/room.html', context)
+
+def createRoom(request):
+    form = RoomForm()
+
+    # if the request is a POST request
+    if request.method == 'POST':
+        # save the POST data into the form
+        form = RoomForm(request.POST)
+        # if the form is valid, save to DB
+        if form.is_valid():
+            form.save()
+
+    context = {'form': form}
+    return render(request, 'base/room_form.html', context)
