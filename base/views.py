@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Room
 
 # Dummy data for rooms
 rooms = [
@@ -9,6 +10,8 @@ rooms = [
 
 def home(request):
     """Home Page View"""
+    # Use Django's model manager to get all Rooms from DB
+    rooms = Room.objects.all()
     # context dict stores data sent to templates
     context = {'rooms': rooms}
     return render(request, 'base/home.html', context)
