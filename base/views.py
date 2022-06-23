@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
+from django.contrib.auth.models import User
 from .models import Room, Topic
 from .forms import RoomForm
 
@@ -9,6 +10,22 @@ from .forms import RoomForm
 #     {'id':2, 'name': 'Design with me!'},
 #     {'id':3, 'name': 'Frontend developers'},
 # ]
+
+def loginPage(request):
+
+    # receiving a POST request to login
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # check if user exists
+        try:
+            user = User.objects.get(username=username)
+        except:
+
+
+    context = {}
+    return render(request, 'base/login_register.html', context)
 
 def home(request):
     """Home Page View"""
