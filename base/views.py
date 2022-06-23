@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from .models import Room, Topic
 from .forms import RoomForm
 
@@ -14,12 +15,18 @@ def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     # Use Django's model manager to get all Rooms from DB
     # Use icontains to filter amd return results on partial search queries
-    rooms = Room.objects.filter(topic__name__icontains=q)
-
+    rooms = Room.objects.filter(
+        Q(topic__name__icontains=q) |
+        Q(name__icontains=q) |
+        Q(description__icontains=q) 
+    )
+        
     topics = Topic.objects.all()
+    # count() works faster than len()
+    room_count = rooms.count()
 
     # context dict stores data sent to templates
-    context = {'rooms': rooms, 'topics': topics}
+    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count}
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
