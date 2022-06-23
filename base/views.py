@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from .models import Room, Topic
 from .forms import RoomForm
 
@@ -85,10 +86,15 @@ def createRoom(request):
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
 
+@login_required(login_url='login')
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     # prefill form with room details
     form = RoomForm(instance=room)
+
+    # restrict users who are not hosts of room from updating it
+    if request.user != room.host:
+        return HttpResponse('You do not have access to updating this room!')
 
     # if we submit the form
     if request.method == 'POST':
@@ -101,8 +107,12 @@ def updateRoom(request, pk):
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
 
+@login_required(login_url='login')
 def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
+
+    if request.user != room.host:
+        return HttpResponse('You do not have access to updating this room!')
 
     # if user confirms the delete, delete the room
     if request.method == 'POST':
