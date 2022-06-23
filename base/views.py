@@ -11,9 +11,10 @@ from .forms import RoomForm
 
 def home(request):
     """Home Page View"""
-    q = request.GET.get('q')
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
     # Use Django's model manager to get all Rooms from DB
-    rooms = Room.objects.filter(topic__name=q)
+    # Use icontains to filter amd return results on partial search queries
+    rooms = Room.objects.filter(topic__name__icontains=q)
 
     topics = Topic.objects.all()
 
