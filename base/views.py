@@ -16,6 +16,10 @@ from .forms import RoomForm
 # ]
 
 def loginPage(request):
+    # restrict logged in users from accessing login page
+    if request.user.is_authenticated:
+        return redirect('home')
+
     # receiving a POST request to login
     if request.method == 'POST':
         username = request.POST.get('username')
