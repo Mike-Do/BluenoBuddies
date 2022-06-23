@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Room
+from .models import Room, Topic
 from .forms import RoomForm
 
 # Dummy data for rooms
@@ -11,10 +11,14 @@ from .forms import RoomForm
 
 def home(request):
     """Home Page View"""
+    q = request.GET.get('q')
     # Use Django's model manager to get all Rooms from DB
-    rooms = Room.objects.all()
+    rooms = Room.objects.filter(topic__name=q)
+
+    topics = Topic.objects.all()
+
     # context dict stores data sent to templates
-    context = {'rooms': rooms}
+    context = {'rooms': rooms, 'topics': topics}
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
