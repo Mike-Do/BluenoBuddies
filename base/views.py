@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib.auth.models import User
 from .models import Room, Topic
@@ -12,7 +14,6 @@ from .forms import RoomForm
 # ]
 
 def loginPage(request):
-
     # receiving a POST request to login
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -22,10 +23,24 @@ def loginPage(request):
         try:
             user = User.objects.get(username=username)
         except:
+            messages.error(request, 'User does not exist')
 
+        # authenticate() will error or return our user
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # creates session in DB and browser
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, "Username OR password does not exist")
 
     context = {}
     return render(request, 'base/login_register.html', context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
 
 def home(request):
     """Home Page View"""
