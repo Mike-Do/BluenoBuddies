@@ -7,3 +7,4 @@ class RoomForm(ModelForm):
         # get all fields from Room and autogenerate form
         model = Room
         fields = '__all__'
+        exclude = ['host', 'participants']
