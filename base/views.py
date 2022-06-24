@@ -85,8 +85,8 @@ def home(request):
     topics = Topic.objects.all()
     # count() works faster than len()
     room_count = rooms.count()
-    # messages for activity feed
-    room_messages = Message.objects.all()
+    # messages for activity feed, only displays messages from current topic (i.e. q)
+    room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
 
     # context dict stores data sent to templates
     context = {'rooms': rooms, 'topics': topics, 
