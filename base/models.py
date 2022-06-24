@@ -15,7 +15,8 @@ class Room(models.Model):
     name = models.CharField(max_length=200)
     # descriptions can be empty
     description = models.TextField(null=True, blank=True)
-    # participants =
+    # participants is a many-to-many relationship (many users, many rooms)
+    participants = models.ManyToManyField(User, related_name='participants', blank=True)
     # Updated and Created automatically set to current time
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
