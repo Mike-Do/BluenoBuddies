@@ -23,8 +23,9 @@ def loginPage(request):
         return redirect('home')
 
     # receiving a POST request to login
-    if request.method == 'POST':
-        username = request.POST.get('username')
+    if request.method == 'POST':    
+        # make entered username case insensitive
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
         # check if user exists
@@ -52,6 +53,22 @@ def logoutUser(request):
 
 def registerPage(request):
     form = UserCreationForm()
+
+    # If user submitted the register form, process it
+    if request.method == 'POST':
+        # fill in form with user-entered data
+        form = UserCreationForm(request.POST)
+        # if form is valid
+        if form.is_valid():
+            # save user, commit=False in order to get access to user right away
+            user = form.save(commit=False)
+            # lowercase username in order to make sure usernames are consistent
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'An error occured during registration')
     return render(request, 'base/login_register.html', {'form': form})
 
 def home(request):
