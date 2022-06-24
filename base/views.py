@@ -122,7 +122,16 @@ def room(request, pk):
 
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
-    context = {'user': user}
+
+    # get all of user's rooms for display in feed
+    rooms = user.room_set.all()
+    # get all messages of user
+    room_messages = user.message_set.all()
+    # grab all topics for Topic Browsing
+    topics = Topic.objects.all()
+
+    context = {'user': user, 'rooms': rooms, 
+        'room_messages': room_messages, 'topics': topics}
     return render(request, 'base/profile.html', context)
 
 # redirect to login page if user is not logged in
