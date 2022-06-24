@@ -12,20 +12,7 @@
 <div class="home-container">
     <!-- Topics selection -->
     <div>
-        <h3>Browse Topics</h3>
-        <hr>
-
-        <div>
-            <a href="{% url 'home' %}">All</a>
-        </div>
-
-        <!-- Loop through all topics and display -->
-        {% for topic in topics %}
-          <div>
-            <!-- Link filters by topic on home page -->
-            <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
-          </div>  
-        {% endfor %}
+        {% include 'base/topics_component.html' %}
     </div>
 
     <!-- Topics feed -->
