@@ -85,9 +85,12 @@ def home(request):
     topics = Topic.objects.all()
     # count() works faster than len()
     room_count = rooms.count()
+    # messages for activity feed
+    room_messages = Message.objects.all()
 
     # context dict stores data sent to templates
-    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count}
+    context = {'rooms': rooms, 'topics': topics, 
+        'room_count': room_count, 'room_messages': room_messages}
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
