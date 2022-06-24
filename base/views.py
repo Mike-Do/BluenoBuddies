@@ -93,7 +93,9 @@ def home(request):
 def room(request, pk):
     """Room Pages View"""
     room = Room.objects.get(id=pk)
-    context = {'room': room}
+    # query child objects of room, 'messege_set' --> gives us entire set of messages
+    room_messages = room.message_set.all()
+    context = {'room': room, 'room_messages': room_messages}
     return render(request, 'base/room.html', context)
 
 # redirect to login page if user is not logged in
