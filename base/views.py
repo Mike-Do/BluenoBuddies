@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from .models import Room, Topic
 from .forms import RoomForm
@@ -16,6 +17,7 @@ from .forms import RoomForm
 # ]
 
 def loginPage(request):
+    page = 'login'
     # restrict logged in users from accessing login page
     if request.user.is_authenticated:
         return redirect('home')
@@ -41,12 +43,16 @@ def loginPage(request):
         else:
             messages.error(request, "Username OR password does not exist")
 
-    context = {}
+    context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
 def logoutUser(request):
     logout(request)
     return redirect('home')
+
+def registerPage(request):
+    form = UserCreationForm()
+    return render(request, 'base/login_register.html', {'form': form})
 
 def home(request):
     """Home Page View"""
