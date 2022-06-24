@@ -120,6 +120,11 @@ def room(request, pk):
         'participants': participants}
     return render(request, 'base/room.html', context)
 
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    context = {'user': user}
+    return render(request, 'base/profile.html', context)
+
 # redirect to login page if user is not logged in
 @login_required(login_url='login')
 def createRoom(request):
