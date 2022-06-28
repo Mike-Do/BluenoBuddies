@@ -81,8 +81,9 @@ def home(request):
         Q(name__icontains=q) |
         Q(description__icontains=q) 
     )
-        
-    topics = Topic.objects.all()
+    
+    # grab only the first five topics to display
+    topics = Topic.objects.all()[0:5]
     # count() works faster than len()
     room_count = rooms.count()
     # messages for activity feed, only displays messages from current topic (i.e. q)
@@ -224,4 +225,8 @@ def updateUser(request):
     return render(request, 'base/update-user.html', {'form': form})
 
 def topicsPage(request):
-    return render(request, 'base/topics.html', {})
+    # search GET request for topic search bar
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    # get topics from DB related to search
+    topics = Topic.objects.filter(name__icontains=q)
+    return render(request, 'base/topics.html', {'topics': topics})
