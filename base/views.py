@@ -225,8 +225,14 @@ def updateUser(request):
     return render(request, 'base/update-user.html', {'form': form})
 
 def topicsPage(request):
+    """View for Browse Topics Page"""
     # search GET request for topic search bar
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     # get topics from DB related to search
     topics = Topic.objects.filter(name__icontains=q)
     return render(request, 'base/topics.html', {'topics': topics})
+
+def activityPage(request):
+    """View for Activities Page (for mobile)"""
+    room_messages = Message.objects.all()
+    return render(request, 'base/activity.html', {})
