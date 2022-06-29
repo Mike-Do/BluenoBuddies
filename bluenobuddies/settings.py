@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 ]
 
 # Tell Django to use our custom user model
-AUTH_USER_MOEL = 'base.User'
+AUTH_USER_MODEL = 'base.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
