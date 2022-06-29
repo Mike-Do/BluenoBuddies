@@ -23,17 +23,17 @@ def loginPage(request):
     # receiving a POST request to login
     if request.method == 'POST':    
         # make entered username case insensitive
-        username = request.POST.get('username').lower()
+        email = request.POST.get('email').lower()
         password = request.POST.get('password')
 
         # check if user exists
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(email=email)
         except:
             messages.error(request, 'User does not exist')
 
         # authenticate() will error or return our user
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, email=email, password=password)
 
         if user is not None:
             # creates session in DB and browser
