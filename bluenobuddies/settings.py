@@ -134,11 +134,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# Media URL for user-uploaded profile pictures
+MEDIA_URL = '/images/'
 
 # Let Django know where static files are stored
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+# Tells Django where to store user-uploaded profile pictures
+MEDIA_ROOT = BASE_DIR / 'static/images'
 
 # STATIC_ROOT =
 
