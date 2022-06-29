@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+# Tell Django to use our custom user model
+AUTH_USER_MOEL = 'base.User'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
