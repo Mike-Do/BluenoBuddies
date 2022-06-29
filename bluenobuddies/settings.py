@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     # connect custom apps
     'base.apps.BaseConfig',
+
+    # connect Django REST framework
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
