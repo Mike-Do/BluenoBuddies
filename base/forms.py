@@ -3,6 +3,13 @@ from django.forms import ModelForm
 from .models import Room, User
 from django.contrib.auth.forms import UserCreationForm
 
+# class for user registration
+class MyUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        # password1 and password2 are password and password confirmation
+        fields = ['name', 'username', 'email', 'password1', 'password2']
+
 class RoomForm(ModelForm):
     class Meta:
         # get all fields from Room and autogenerate form

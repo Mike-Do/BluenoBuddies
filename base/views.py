@@ -3,10 +3,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
-from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from .models import Room, Topic, Message, User
-from .forms import RoomForm, UserForm
+from .forms import RoomForm, UserForm, MyUserCreationForm
 
 # Dummy data for rooms
 # rooms = [
@@ -51,12 +50,12 @@ def logoutUser(request):
     return redirect('home')
 
 def registerPage(request):
-    form = UserCreationForm()
+    form = MyUserCreationForm()
 
     # If user submitted the register form, process it
     if request.method == 'POST':
         # fill in form with user-entered data
-        form = UserCreationForm(request.POST)
+        form = MyUserCreationForm(request.POST)
         # if form is valid
         if form.is_valid():
             # save user, commit=False in order to get access to user right away
